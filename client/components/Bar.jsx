@@ -33,7 +33,7 @@ export const Bar = ({ selected, setSelected }) => {
         </div>
         <progress
           className='progress w-64 progress-primary'
-          value={100 / days * daysPassed}
+          value={(100 / days) * daysPassed}
           max='100'
         ></progress>
       </div>
@@ -44,7 +44,7 @@ export const Bar = ({ selected, setSelected }) => {
         <BsFilter size={25} className='mr-1' />
         <span>Filter</span>
         <select
-          className='select w-30 ml-3 max-w-xs bg-[#3a3a3d] '
+          className='select w-40 ml-3 max-w-xs bg-[#3a3a3d] '
           value={selected}
           onChange={handleChange}
         >

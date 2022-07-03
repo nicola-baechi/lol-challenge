@@ -26,7 +26,6 @@ app.route('/ranking').get(async function (req, res) {
 
   let data = [autophil, bladeshow, shantao, sola, kutcher];
   data = calculateRanking(data);
-  
 
   const response = data.map((player, index) => ({
     ...player,
