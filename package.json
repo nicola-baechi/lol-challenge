@@ -1,0 +1,22 @@
+{
+  "name": "vinine-grandmaster",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently \"cd server && npm run dev\" \"cd client && npm run dev\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nicola-baechi/vinine-grandmaster.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nicola-baechi/vinine-grandmaster/issues"
+  },
+  "homepage": "https://github.com/nicola-baechi/vinine-grandmaster#readme",
+  "devDependencies": {
+    "concurrently": "^7.2.2"
+  }
+}
