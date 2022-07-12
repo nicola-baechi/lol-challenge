@@ -7,7 +7,7 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 
 export default function Home({ data }) {
-  const [selected, setSelected] = useState('lp');
+  const [selected, setSelected] = useState();
 
   const [ranking, setRanking] = useState(data);
 
@@ -15,7 +15,18 @@ export default function Home({ data }) {
     if (selected == 'lp') {
       setRanking((ranking) => ranking.sort((a, b) => b.progress - a.progress));
     } else if (selected == 'progress') {
-      setRanking((ranking) => ranking.sort((a, b) => b.lp - a.lp));
+      // check if tier is diamond and put them at the end
+      setRanking((ranking) =>
+        ranking.sort((a, b) => {
+          if (a.tier == 'DIAMOND' && b.tier != 'DIAMOND') {
+            return 1;
+          } else if (b.tier == 'DIAMOND' && a.tier != 'DIAMOND') {
+            return -1;
+          } else {
+            return b.progress - a.progress;
+          }
+        })
+      );
     } else {
       setRanking((ranking) => ranking.sort((a, b) => a.position - b.position));
     }
@@ -23,6 +34,7 @@ export default function Home({ data }) {
 
   useEffect(() => {
     sortRanking();
+    console.log('selected', selected);
   }, [selected]);
 
   return (
@@ -33,9 +45,12 @@ export default function Home({ data }) {
       </Head>
       <Header />
       <Bar selected={selected} setSelected={setSelected} />
-      <div className='grid grid-col grid-cols-1 lg:grid-cols-2 justify-items-center xl:grid-cols-3'>
+      <div
+        className='grid grid-col grid-cols-1 
+       lg:grid-cols-2 justify-items-center xl:grid-cols-3'
+      >
         {ranking.map((player, index) => (
-          <Card playerData={player} key={player.position} index={index} />
+          <Card playerData={player} key={player.name} index={index} />
         ))}
       </div>
       <Footer />
@@ -44,7 +59,7 @@ export default function Home({ data }) {
 }
 
 export async function getServerSideProps() {
-  const res = await fetch('http://localhost:8080/ranking');
+  const res = await fetch('http://localhost:8080/players');
   const data = await res.json();
 
   return { props: { data } };

@@ -1,5 +1,7 @@
 const express = require('express');
-const service = require('./service');
+const service = require('./services/player.service');
+const cron = require('node-cron');
+const utils = require('./utils/player.utils');
 
 const {
   BLADESHOW,
@@ -8,8 +10,13 @@ const {
   SOLA,
   KUTCHER,
 } = require('./constants/start');
+const db = require('./services/db.service');
 
-// CONFIG
+// todo - add a cron job to update the most played champions
+// todo - check why it doesnt work for the other players
+const players = [BLADESHOW, AUTOPHIL, SHANTAO, SOLA, KUTCHER];
+let player = players[3];
+
 const app = express();
 const port = 8080;
 
@@ -17,42 +24,28 @@ app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
 
-app.route('/ranking').get(async function (req, res) {
-  const autophil = await service.buildData(AUTOPHIL);
-  const bladeshow = await service.buildData(BLADESHOW);
-  const shantao = await service.buildData(SHANTAO);
-  const sola = await service.buildData(SOLA);
-  const kutcher = await service.buildData(KUTCHER);
+app.route('/players').get(async function (req, res) {
+  let data = [];
+  for (let player of players) {
+    const response = await service.buildData(player);
+    data.push(response);
+  }
+  data = utils.calculateRanking(data);
 
-  let data = [autophil, bladeshow, shantao, sola, kutcher];
-  data = calculateRanking(data);
+  const grandmasters = await service.getGrandmasterLP();
+  console.log(grandmasters);
 
-  const response = data.map((player, index) => ({
-    ...player,
-    position: index + 1,
-  }));
-
-  res.send(response);
+  res.send(data);
 });
 
-const calculateRanking = (data) => {
-  const diamonds = data.filter((player) => player.tier === 'DIAMOND');
-  if (diamonds.length == 0) {
-    const sorted = data.sort((a, b) => {
-      return b.lp - a.lp;
-    });
-    return sorted;
+cron.schedule('* * * * *', async function () {
+  await service.updateMostPlayed(player.USERNAME);
+  const updated = await db.getEntriesByPlayer(player.USERNAME);
+  console.log(`${updated} most played of ${player.USERNAME}`);
+  // if player is last of players array
+  if (player.USERNAME === players[players.length - 1].USERNAME) {
+    player = players[0];
   } else {
-    const sortedDiamonds = diamonds.sort((a, b) => {
-      return b.lp - a.lp;
-    });
-
-    const rest = data
-      .filter((player) => player.tier !== 'DIAMOND')
-      .sort((a, b) => {
-        return b.lp - a.lp;
-      });
-
-    return rest.concat(sortedDiamonds);
+    player = players[players.indexOf(player) + 1];
   }
-};
+});

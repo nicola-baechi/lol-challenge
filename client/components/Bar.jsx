@@ -1,4 +1,3 @@
-import { TbClock } from 'react-icons/tb';
 import { BsFilter } from 'react-icons/bs';
 
 export const Bar = ({ selected, setSelected }) => {

@@ -1,9 +1,0 @@
-[0] {
-    [0]   id: 'G6V_ftmM_BuL2J_guvMWb3Y_hMTONlxNO8KX9YvLA7Oeh4c',
-    [0]   accountId: 'dJ0tfIJET6RMiPxAt_xW7-0NggeYTVTLTgL7bK6MCdWxxA',
-    [0]   puuid: 'ESaXjmdxwaRHihdcwLUzOxB8LmJkaW_lbFsyFeGAMyqTrP-rYk9mY7lDJnYVkkAwO_ZsECq2NAmSrQ',
-    [0]   name: 'VININE Philly',
-    [0]   profileIconId: 5031,
-    [0]   revisionDate: 1656359265279,
-    [0]   summonerLevel: 709
-    [0] }
