@@ -6,7 +6,7 @@ export const Header = () => {
     bg-[#1f1f23] drop-shadow-lg p-4 pl-5 rounded-lg text-white '
       >
         <div>
-          <a href='https://vinine.de' target='_blank'>
+          <a href='https://vinine.de' target='_blank' rel='noreferrer'>
             <img src='/vinine.png' alt='logo' className='h-8' />
           </a>
         </div>
