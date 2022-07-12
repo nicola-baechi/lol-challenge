@@ -81,6 +81,7 @@ export const Card = ({ playerData, index }) => {
           <a
             href={`https://euw.op.gg/summoners/euw/${playerData.username}`}
             target='_blank'
+            rel='noreferrer'
           >
             {playerData.username}
           </a>
