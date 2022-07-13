@@ -25,12 +25,6 @@ app.listen(process.env.PORT || 8080, host, () => {
 app.route('/players').get(async function (req, res) {
   db.initialize();
 
-  const playerDatas = await db.getAllPlayerData();
-  console.log(`playerData: ${playerDatas}`);
-
-  const champs = await db.getAllEntries();
-  console.log('champs', champs);
-
   let data = [];
   for (let player of players) {
     const playerData = await db.getPlayerDataByPlayer(player.USERNAME);
