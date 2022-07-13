@@ -22,7 +22,7 @@ const host = '0.0.0.0';
 const port = 8080;
 
 app.listen(process.env.PORT || 8080, host, () => {
-  console.log(`Example app listening on port ${port}`);
+  console.log(`app listening on port ${port} KEY ${process.env.API_KEY}`);
 });
 
 app.route('/players').get(async function (req, res) {
