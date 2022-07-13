@@ -109,6 +109,19 @@ const getGrandmasterLP = async () => {
   return sortedGrandmasters[41].leaguePoints;
 };
 
+const getChallengerLP = async () => {
+  const url = `${BASE_URL}league/v4/challengerleagues/by-queue/RANKED_SOLO_5x5?api_key=${process.env.API_KEY}`;
+  const res = await fetch(url);
+  const json = await res.json();
+  const challengers = json.entries;
+
+  const sortedChallengers = challengers.sort(
+    (a, b) => a.leaguePoints - b.leaguePoints
+  );
+
+  return sortedChallengers[10].leaguePoints;
+};
+
 const getPuuid = async (username) => {
   const account = await getAccount(username);
   return account.puuid;
@@ -131,6 +144,7 @@ const getAccount = async (username) => {
 module.exports = {
   updateMostPlayed: updateMostPlayed,
   buildData: buildData,
+  getRankedData: getRankedData,
   getChampionData: getChampionData,
   getPuuid: getPuuid,
   getGrandmasterLP: getGrandmasterLP,

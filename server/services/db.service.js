@@ -20,11 +20,20 @@ const initialize = async () => {
       'CREATE TABLE IF NOT EXISTS champions (player text, champions text)',
       'run'
     );
+    await query(
+      'CREATE TABLE IF NOT EXISTS players (player text, tier text, rank text, lp text, wr text, progress text, lpToGM text)',
+      'run'
+    );
   });
 };
 
 const getAllEntries = async () => {
   const entries = await query('SELECT * FROM champions', 'run');
+  return entries;
+};
+
+const getAllPlayerData = async () => {
+  const entries = await query('SELECT * FROM players', 'run');
   return entries;
 };
 
@@ -39,6 +48,39 @@ const getEntriesByPlayer = async (player) => {
   } else {
     return entries;
   }
+};
+
+const getPlayerDataByPlayer = async (player) => {
+  const entries = await query(
+    `SELECT * FROM players WHERE player = '${player}'`
+  );
+
+  return entries[0];
+};
+
+const setPlayerData = async (player, tier, rank, lp, wr, progress, lpToGM) => {
+  await query(
+    `INSERT INTO players (player, tier, rank, lp, wr, progress, lpToGM) 
+    VALUES ('${player}', '${tier}', '${rank}', '${lp}', '${wr}', '${progress}', '${lpToGM}')`,
+    'run'
+  );
+};
+
+const updatePlayerData = async (
+  player,
+  tier,
+  rank,
+  lp,
+  wr,
+  progress,
+  lpToGM
+) => {
+  // update all params
+  await query(
+    `UPDATE players SET tier = '${tier}', rank = '${rank}', lp = '${lp}', wr = '${wr}', progress = '${progress}', lpToGM = '${lpToGM}' 
+    WHERE player = '${player}'`,
+    'run'
+  );
 };
 
 const setChampionsByPlayer = async (player, champions) => {
@@ -72,13 +114,17 @@ const updateChampionsByPlayer = async (player, champions) => {
 };
 
 const clearDatabase = async () => {
-  await query('DELETE FROM champions');
+  await query('DELETE FROM players');
 };
 
 module.exports = {
   getAllEntries: getAllEntries,
+  getAllPlayerData: getAllPlayerData,
   initialize: initialize,
   getEntriesByPlayer: getEntriesByPlayer,
+  setPlayerData: setPlayerData,
+  updatePlayerData: updatePlayerData,
+  getPlayerDataByPlayer: getPlayerDataByPlayer,
   setChampionsByPlayer: setChampionsByPlayer,
   updateChampionsByPlayer: updateChampionsByPlayer,
   clearDatabase: clearDatabase,
