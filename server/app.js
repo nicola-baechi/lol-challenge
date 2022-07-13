@@ -22,19 +22,17 @@ const host = '0.0.0.0';
 const port = 8080;
 
 app.listen(process.env.PORT || 8080, host, () => {
-  console.log(`app listening on port ${port} KEY ${process.env.API_KEY}`);
+  console.log(`app listening on port ${port}`);
 });
 
 app.route('/players').get(async function (req, res) {
+  
   let data = [];
   for (let player of players) {
     const response = await service.buildData(player);
     data.push(response);
   }
   data = utils.calculateRanking(data);
-
-  const grandmasters = await service.getGrandmasterLP();
-  console.log(grandmasters);
 
   res.send(data);
 });
