@@ -18,9 +18,10 @@ const players = [BLADESHOW, AUTOPHIL, SHANTAO, SOLA, KUTCHER];
 let player = players[3];
 
 const app = express();
+const host = '0.0.0.0';
 const port = 8080;
 
-app.listen(process.env.PORT || 8080, () => {
+app.listen(process.env.PORT || 8080, host, () => {
   console.log(`Example app listening on port ${port}`);
 });
 
