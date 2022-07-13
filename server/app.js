@@ -20,7 +20,7 @@ let player = players[3];
 const app = express();
 const port = 8080;
 
-app.listen(port, () => {
+app.listen(process.env.PORT || 8080, () => {
   console.log(`Example app listening on port ${port}`);
 });
 
