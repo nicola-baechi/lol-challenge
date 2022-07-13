@@ -44,9 +44,7 @@ const buildData = async (playerStartData) => {
 
 const getRankedData = async (username) => {
   const accountId = await getAccountId(username);
-  console.log(`accountID: ${accountId}`);
   const url = `${BASE_URL}${RANK_API}${accountId}?api_key=${process.env.API_KEY}`;
-  console.log(`URL: ${url}`);
   const response = fetch(url)
     .then((res) => res.json())
     .then((json) => {
@@ -123,7 +121,6 @@ const getAccountId = async (username) => {
 
 const getAccount = async (username) => {
   const url = `${BASE_URL}${ACCOUNT_API}${username}?api_key=${process.env.API_KEY}`;
-  console.log(`ACCOUNT URL: ${url}`);
 
   const res = await fetch(url);
   const json = await res.json();

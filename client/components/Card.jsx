@@ -49,8 +49,8 @@ export const Card = ({ playerData, index }) => {
     } else {
       return {
         size: 'text-lg font-bold',
-        lp: 'text-xl',
-        gap: 'gap-1.5',
+        lp: 'text-lg',
+        gap: 'gap-2',
       };
     }
   };
