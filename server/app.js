@@ -28,7 +28,11 @@ app.route('/players').get(async function (req, res) {
   let data = [];
   for (let player of players) {
     const playerData = await db.getPlayerDataByPlayer(player.USERNAME);
-    data.push(playerData);
+    const championData = JSON.parse(
+      await db.getEntriesByPlayer(player.USERNAME)
+    );
+
+    data.push({ playerData, championData });
   }
   data = utils.calculateRanking(data);
 
