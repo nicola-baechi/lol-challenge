@@ -80,11 +80,11 @@ export const Card = ({ playerData, index }) => {
         </div>
         <div className='font-bold text-2xl hover:underline'>
           <a
-            href={`https://euw.op.gg/summoners/euw/${playerData.username}`}
+            href={`https://euw.op.gg/summoners/euw/${playerData.player}`}
             target='_blank'
             rel='noreferrer'
           >
-            {playerData.username}
+            {playerData.player}
           </a>
         </div>
       </div>
