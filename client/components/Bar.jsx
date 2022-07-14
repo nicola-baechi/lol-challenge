@@ -1,6 +1,6 @@
 import { BsFilter } from 'react-icons/bs';
 
-export const Bar = ({ selected, setSelected }) => {
+export const Bar = ({ selected, setSelected, GMLP }) => {
   const startDate = new Date('6/30/2022');
   const endDate = new Date('8/21/2022');
   const days = 53;
@@ -20,7 +20,7 @@ export const Bar = ({ selected, setSelected }) => {
   };
 
   return (
-    <div className='grid grid-cols-1 md:grid-cols-2 font-semibold'>
+    <div className='grid grid-cols-1 lg:grid-cols-3 font-semibold'>
       <div
         className='flex m-3 items-center justify-center gap-3
     bg-[#1f1f23] flex-col drop-shadow-lg p-4 pl-5 rounded-lg text-white '
@@ -35,6 +35,16 @@ export const Bar = ({ selected, setSelected }) => {
           value={(100 / days) * daysPassed}
           max='100'
         ></progress>
+      </div>
+      <div
+        className='flex m-3 items-center justify-center gap-3
+    bg-[#1f1f23] drop-shadow-lg p-4 pl-5 rounded-lg text-white'
+      >
+        <img
+          src={`https://static.u.gg/assets/lol/ranks/2d/grandmaster.svg`}
+          className='h-10'
+        />
+        <h6>Grenze bei ~ <span className='text-[#cd4241] font-bold'>{GMLP} LP</span></h6>
       </div>
       <div
         className='flex m-3 items-center justify-center gap-3

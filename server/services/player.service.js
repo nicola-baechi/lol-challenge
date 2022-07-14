@@ -97,16 +97,13 @@ const getMatchesByPuuid = async (puuid) => {
 };
 
 const getGrandmasterLP = async () => {
-  const url = `${BASE_URL}league/v4/grandmasterleagues/by-queue/RANKED_SOLO_5x5?api_key=${process.env.API_KEY}`;
+  const url = `${BASE_URL}league/v4/masterleagues/by-queue/RANKED_SOLO_5x5?api_key=${process.env.API_KEY}`;
   const res = await fetch(url);
   const json = await res.json();
-  const grandmasters = json.entries;
+  const masters = json.entries;
 
-  const sortedGrandmasters = grandmasters.sort(
-    (a, b) => a.leaguePoints - b.leaguePoints
-  );
-
-  return sortedGrandmasters[41].leaguePoints;
+  const sortedMasters = masters.sort((a, b) => b.leaguePoints - a.leaguePoints);
+  return sortedMasters[20].leaguePoints;
 };
 
 const getChallengerLP = async () => {
@@ -148,4 +145,5 @@ module.exports = {
   getChampionData: getChampionData,
   getPuuid: getPuuid,
   getGrandmasterLP: getGrandmasterLP,
+  getChallengerLP: getChallengerLP,
 };

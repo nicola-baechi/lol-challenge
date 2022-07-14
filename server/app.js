@@ -1,5 +1,6 @@
 const express = require('express');
 const utils = require('./utils/player.utils');
+const service = require('./services/player.service');
 
 const {
   BLADESHOW,
@@ -18,12 +19,23 @@ const app = express();
 const host = '0.0.0.0';
 const port = 8080;
 
-app.listen(process.env.PORT || 8080, host, () => {
-  console.log(`app listening on port ${port}`);
-});
+if (process.env.NODE_ENV !== 'development') {
+  // disable all console logs
+  console.log = function () {};
+}
 
+app.listen(
+  process.env.PORT || 8080,
+  process.env.NODE_ENV === 'development' ? undefined : host,
+  () => {
+    console.log(`app listening on port ${port}`);
+  }
+);
 app.route('/players').get(async function (req, res) {
   db.initialize();
+
+  const gm = await service.getGrandmasterLP();
+  console.log('GM LP', gm);
 
   let data = [];
   for (let player of players) {
@@ -32,7 +44,10 @@ app.route('/players').get(async function (req, res) {
       await db.getEntriesByPlayer(player.USERNAME)
     );
 
+    console.log(await service.getChallengerLP());
+
     const merged = {
+      name: player.NAME,
       ...playerData,
       mostPlayed: championData,
     };

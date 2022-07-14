@@ -3,7 +3,6 @@ import { GoTriangleUp, GoTriangleDown } from 'react-icons/go';
 import { TbCrown } from 'react-icons/tb';
 
 export const Card = ({ playerData, index }) => {
-  console.log('playerData', playerData)
   const progress = playerData.progress.replace(/\-/g, '');
 
   const rankIcon =
@@ -133,10 +132,17 @@ export const Card = ({ playerData, index }) => {
             <h6 className='text-xl'>{playerData.lpToGM} LP</h6>
             <h6 className='text-xs font-medium text-[gray-400]'>FÜR</h6>
           </div>
-          <img
-            src={`https://static.u.gg/assets/lol/ranks/2d/grandmaster.svg`}
-            className='h-12'
-          />
+          {playerData.tier == 'GRANDMASTER' ? (
+            <img
+              src={`https://static.u.gg/assets/lol/ranks/2d/challenger.svg`}
+              className='h-12'
+            />
+          ) : (
+            <img
+              src={`https://static.u.gg/assets/lol/ranks/2d/grandmaster.svg`}
+              className='h-12'
+            />
+          )}
         </div>
         <div
           className='flex flex-col bg-[#3a3a3d] rounded-md 
