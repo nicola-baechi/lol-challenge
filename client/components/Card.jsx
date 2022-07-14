@@ -3,7 +3,8 @@ import { GoTriangleUp, GoTriangleDown } from 'react-icons/go';
 import { TbCrown } from 'react-icons/tb';
 
 export const Card = ({ playerData, index }) => {
-  const progress = playerData.progress.toString().replace(/\-/g, '');
+  console.log('playerData', playerData)
+  const progress = playerData.progress.replace(/\-/g, '');
 
   const rankIcon =
     playerData.tier !== 'GM'

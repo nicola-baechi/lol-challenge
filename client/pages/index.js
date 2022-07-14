@@ -60,6 +60,7 @@ export default function Home({ data }) {
 
 export async function getServerSideProps() {
   const res = await fetch('https://vinine-grandmaster.herokuapp.com/players');
+  //const res = await fetch('http://localhost:8080/players');
   const data = await res.json();
 
   return { props: { data } };

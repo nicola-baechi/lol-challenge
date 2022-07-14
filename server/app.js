@@ -32,7 +32,11 @@ app.route('/players').get(async function (req, res) {
       await db.getEntriesByPlayer(player.USERNAME)
     );
 
-    data.push({ playerData, championData });
+    const merged = {
+      ...playerData,
+      mostPlayed: championData,
+    };
+    data.push(merged);
   }
   data = utils.calculateRanking(data);
 
