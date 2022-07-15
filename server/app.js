@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const db = require('./services/db.service');
+const utils = require('./utils/player.utils');
 
 const app = express();
 app.use(cors());
@@ -22,7 +23,7 @@ const getPlayers = async (request, response) => {
     final.push({ ...player, mostPlayed });
   }
 
-  response.status(200).json(final);
+  response.status(200).json(utils.calculateRanking(final));
 };
 
 app.route('/players').get(getPlayers);
