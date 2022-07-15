@@ -1,131 +1,178 @@
-// DB CONFIG
-const sqlite3 = require('sqlite3').verbose();
-const db = new sqlite3.Database('champions.db');
+const { client } = require('../config/db.config');
 
-const query = (command, method = 'all') => {
-  return new Promise((resolve, reject) => {
-    db[method](command, (error, result) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve(result);
-      }
-    });
-  });
-};
-
-const initialize = async () => {
-  db.serialize(async () => {
-    await query(
-      'CREATE TABLE IF NOT EXISTS champions (player text, champions text)',
-      'run'
-    );
-    await query(
-      'CREATE TABLE IF NOT EXISTS players (player text, tier text, rank text, lp text, wr text, progress text, lpToGM text)',
-      'run'
-    );
-  });
-};
-
-const getAllEntries = async () => {
-  const entries = await query('SELECT * FROM champions', 'run');
-  return entries;
-};
-
-const getAllPlayerData = async () => {
-  const entries = await query('SELECT * FROM players', 'run');
-  return entries;
-};
-
-const getEntriesByPlayer = async (player) => {
-  const entries = await query(
-    `SELECT champions FROM champions WHERE player = '${player}'`
-  );
-
-  if (entries !== undefined && entries.length > 0) {
-    const champions = entries[0].champions;
-    return champions;
-  } else {
-    return entries;
+const getPlayers = async () => {
+  try {
+    const result = await client.query(`SELECT * FROM PLAYERS`);
+    return result.rows;
+  } catch (e) {
+    return console.error(e.stack);
   }
 };
 
-const getPlayerDataByPlayer = async (player) => {
-  const entries = await query(
-    `SELECT * FROM players WHERE player = '${player}'`
-  );
-
-  return entries[0];
-};
-
-const setPlayerData = async (player, tier, rank, lp, wr, progress, lpToGM) => {
-  await query(
-    `INSERT INTO players (player, tier, rank, lp, wr, progress, lpToGM) 
-    VALUES ('${player}', '${tier}', '${rank}', '${lp}', '${wr}', '${progress}', '${lpToGM}')`,
-    'run'
-  );
-};
-
-const updatePlayerData = async (
-  player,
+const createPlayer = (
+  username,
+  name,
   tier,
   rank,
   lp,
   wr,
   progress,
-  lpToGM
+  lpToUprank
 ) => {
-  // update all params
-  await query(
-    `UPDATE players SET tier = '${tier}', rank = '${rank}', lp = '${lp}', wr = '${wr}', progress = '${progress}', lpToGM = '${lpToGM}' 
-    WHERE player = '${player}'`,
-    'run'
+  client.query(
+    `INSERT INTO players (username, name,  tier, p_rank, lp, wr, progress, lp_to_uprank) 
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
+    [username, name, tier, rank, lp, wr, progress, lpToUprank],
+    (error, results) => {
+      if (error) {
+        throw error;
+      } else {
+        console.info(`player ${username} successfully created`);
+      }
+    }
   );
 };
 
-const setChampionsByPlayer = async (player, champions) => {
-  const entries = await query(
-    `INSERT INTO champions (player, champions) VALUES ('${player}', '${JSON.stringify(
-      champions
-    )}')`,
-    'run'
+const updatePlayer = (username, data) => {
+  const { tier, rank, lp, wr, progress, lpToUprank } = data;
+
+  client.query(
+    `UPDATE players SET tier = $1, p_rank = $2, lp = $3, wr = $4, progress = $5, lp_to_uprank = $6 WHERE username = $7`,
+    [tier, rank, lp, wr, progress, lpToUprank, username],
+    (error, results) => {
+      if (error) {
+        throw error;
+      } else {
+        console.info(`player ${username} successfully updated`);
+      }
+    }
   );
-  if (entries !== undefined) {
-    const response = entries[0].champions;
-    return response;
-  } else {
-    return entries;
+};
+
+const createMostPlayed = async (username, champions) => {
+  const id = await getIdByUsername(username);
+
+  for (const champion of champions) {
+    client.query(
+      `INSERT INTO most_played (player, champion, games) VALUES ($1, $2, $3)`,
+      [id, champion.name, champion.games],
+      (error, results) => {
+        if (error) {
+          throw error;
+        } else {
+          console.info(
+            `most played ${champion.name} of ${username} successfully created`
+          );
+        }
+      }
+    );
   }
 };
 
-const updateChampionsByPlayer = async (player, champions) => {
-  const entries = await query(
-    `UPDATE champions SET champions = '${JSON.stringify(
-      champions
-    )}' WHERE player = '${player}'`,
-    'run'
+const updateMostPlayed = async (username, champions) => {
+  const id = await getIdByUsername(username);
+
+  const ids = await getMostPlayedIdsByPlayer(id);
+
+  for (const [index, _id] of ids.entries()) {
+    const champion = champions[index];
+
+    client.query(
+      `UPDATE most_played SET champion = $1, games = $2 WHERE player = $3
+      AND id = $4`,
+      [champion.name, champion.games, id, _id.id],
+      (error, results) => {
+        if (error) {
+          throw error;
+        } else {
+          console.info(
+            `most played ${champion.name} of ${username} successfully updated`
+          );
+        }
+      }
+    );
+  }
+  updateTimestamp(username);
+};
+
+const getMostPlayedByPlayer = async (username) => {
+  const id = await getIdByUsername(username);
+
+  const result = await client.query(
+    `SELECT * FROM most_played WHERE player = $1`,
+    [id]
   );
-  if (entries !== undefined) {
-    const response = entries[0].champions;
-    return response;
-  } else {
-    return entries;
+  return result.rows;
+};
+
+const getIdByUsername = async (username) => {
+  try {
+    const result = await client.query(
+      `SELECT id FROM players WHERE username = $1`,
+      [username]
+    );
+    return result.rows[0].id;
+  } catch (e) {
+    return console.error(e.stack);
   }
 };
 
-const clearDatabase = async () => {
-  await query('DELETE FROM players');
+const getMostPlayedIdsByPlayer = async (player) => {
+  try {
+    const result = await client.query(
+      `SELECT id FROM most_played WHERE player = $1`,
+      [player]
+    );
+    return result.rows;
+  } catch (e) {
+    return console.error(e.stack);
+  }
+};
+
+const getOldestPlayerTimestamp = async () => {
+  const players = await getPlayers();
+  const today = new Date();
+  let times = [];
+
+  for (const player of players) {
+    const lastUpdated = new Date(Date.parse(player.mp_updated));
+    times.push({
+      username: player.username,
+      timestamp: Math.abs(today - lastUpdated),
+    });
+  }
+
+  const oldest = times.reduce((a, b) => (a.timestamp > b.timestamp ? a : b));
+  return oldest.username;
+};
+
+const updateTimestamp = async (username) => {
+  const id = await getIdByUsername(username);
+
+  const date = new Date().toISOString().slice(0, 19).replace('T', ' ');
+
+  client.query(
+    `UPDATE players SET mp_updated = $1 WHERE id = $2`,
+    [date, id],
+    (error, results) => {
+      if (error) {
+        throw error;
+      } else {
+        console.info(
+          `timestamp of ${username} successfully updated to ${date}`
+        );
+      }
+    }
+  );
 };
 
 module.exports = {
-  getAllEntries: getAllEntries,
-  getAllPlayerData: getAllPlayerData,
-  initialize: initialize,
-  getEntriesByPlayer: getEntriesByPlayer,
-  setPlayerData: setPlayerData,
-  updatePlayerData: updatePlayerData,
-  getPlayerDataByPlayer: getPlayerDataByPlayer,
-  setChampionsByPlayer: setChampionsByPlayer,
-  updateChampionsByPlayer: updateChampionsByPlayer,
-  clearDatabase: clearDatabase,
+  getPlayers,
+  getIdByUsername,
+  getMostPlayedByPlayer,
+  getOldestPlayerTimestamp,
+  createPlayer,
+  updatePlayer,
+  createMostPlayed,
+  updateMostPlayed,
 };

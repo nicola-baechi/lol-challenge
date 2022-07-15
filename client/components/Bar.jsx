@@ -37,7 +37,7 @@ export const Bar = ({ selected, setSelected, GMLP }) => {
         ></progress>
       </div>
       <div
-        className='flex m-3 items-center justify-center gap-3
+        className='flex m-3 items-center justify-center gap-5
     bg-[#1f1f23] drop-shadow-lg p-4 pl-5 rounded-lg text-white'
       >
         <img

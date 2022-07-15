@@ -18,12 +18,22 @@ const getMostPlayedChampions = (champions) => {
     }
   }
 
-  // get top 3 most played champions
-  const top3 = Object.keys(count)
-    .sort((a, b) => count[b] - count[a])
+  let data = [];
+  Object.keys(count).forEach((key) => {
+    const element = {
+      name: key,
+      games: count[key],
+    };
+    data.push(element);
+  });
+
+  const mostPlayed = data
+    .sort((a, b) => {
+      return b.games - a.games;
+    })
     .slice(0, 3);
 
-  return top3;
+  return mostPlayed;
 };
 
 const calculateRanking = (data) => {

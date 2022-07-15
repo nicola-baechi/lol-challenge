@@ -17,8 +17,7 @@ export default function Home({ data }) {
 
   const getGMCutoff = () => {
     const master = data.filter((player) => player.tier !== 'GRANDMASTER');
-    console.log(master);
-    return parseInt(master[0].lp) + parseInt(master[0].lpToGM);
+    return parseInt(master[0].lp) + parseInt(master[0].lp_to_uprank);
   };
 
   const sortRanking = () => {

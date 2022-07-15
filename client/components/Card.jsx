@@ -55,7 +55,7 @@ export const Card = ({ playerData, index }) => {
     }
   };
 
-  const cardUrl = `https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${playerData.mostPlayed[0]}_0.jpg`;
+  const cardUrl = `https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${playerData.mostPlayed[0].champion}_0.jpg`;
 
   useEffect(() => {});
   return (
@@ -83,7 +83,7 @@ export const Card = ({ playerData, index }) => {
             target='_blank'
             rel='noreferrer'
           >
-            {playerData.player}
+            {playerData.username}
           </a>
         </div>
       </div>
@@ -101,7 +101,7 @@ export const Card = ({ playerData, index }) => {
                font-semibold`}
             >
               {playerData.tier}
-              {playerData.tier == 'DIAMOND' && ` ${playerData.rank}`}
+              {playerData.tier == 'DIAMOND' && ` ${playerData.p_rank}`}
             </span>
             <span className=' text-gray-500 font-bold'>·</span>
             <span
@@ -129,7 +129,7 @@ export const Card = ({ playerData, index }) => {
       <div className='flex mt-5 w-full justify-between'>
         <div className='flex p-3 flex-col items-center gap-2 bg-[#3a3a3d] font-medium rounded-md'>
           <div className='flex gap-2 items-baseline'>
-            <h6 className='text-xl'>{playerData.lpToGM} LP</h6>
+            <h6 className='text-xl'>{playerData.lp_to_uprank} LP</h6>
             <h6 className='text-xs font-medium text-[gray-400]'>FÜR</h6>
           </div>
           {playerData.tier == 'GRANDMASTER' ? (
@@ -154,7 +154,7 @@ export const Card = ({ playerData, index }) => {
               <img
                 key={item}
                 className='w-10 rounded-md border-2 border-gray-500'
-                src={`http://ddragon.leagueoflegends.com/cdn/12.12.1/img/champion/${item}.png`}
+                src={`http://ddragon.leagueoflegends.com/cdn/12.12.1/img/champion/${item.champion}.png`}
               />
             ))}
           </div>

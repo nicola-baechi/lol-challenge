@@ -7,40 +7,7 @@ const {
 } = require('../constants/api');
 const fetch = require('node-fetch');
 require('dotenv').config();
-const db = require('./db.service');
 const utils = require('../utils/player.utils');
-
-const buildData = async (playerStartData) => {
-  const updatedData = await getRankedData(playerStartData.USERNAME);
-
-  if (!updatedData) {
-    return 'player not found';
-  }
-
-  const wr = Math.round(
-    (100 / (updatedData.wins + updatedData.losses)) * updatedData.wins
-  );
-
-  const progress = utils.calculateProgress(updatedData, playerStartData);
-  const mostPlayed = await db.getEntriesByPlayer(playerStartData.USERNAME);
-
-  const lpToGM = (await getGrandmasterLP()) - updatedData.leaguePoints;
-
-  const response = {
-    name: playerStartData.NAME,
-    username: playerStartData.USERNAME,
-    tier: updatedData.tier,
-    rank: updatedData.rank,
-    lp: updatedData.leaguePoints,
-    startlp: playerStartData.LP,
-    wr: wr,
-    lpToGM: lpToGM,
-    progress: progress,
-    mostPlayed: JSON.parse(mostPlayed),
-  };
-
-  return response;
-};
 
 const getRankedData = async (username) => {
   const accountId = await getAccountId(username);
@@ -54,25 +21,21 @@ const getRankedData = async (username) => {
 };
 
 const updateMostPlayed = async (username) => {
-  const updatedChampions = await getChampionData(username);
-  const existingChampions = await db.getEntriesByPlayer(username);
-  if (existingChampions?.length === 0) {
-    return await db.setChampionsByPlayer(username, updatedChampions);
-  } else {
-    return await db.updateChampionsByPlayer(username, updatedChampions);
-  }
-};
-
-const getChampionData = async (username) => {
   const puuid = await getPuuid(username);
   const matches = await getMatchesByPuuid(puuid);
   let champions = [];
   for (let matchId of matches) {
     const match = await getMatchInfo(matchId);
-    const player = match.info.participants.find(
-      (participant) => participant.puuid === puuid
-    );
-    champions.push(player.championName);
+    if (match.hasOwnProperty('status')) {
+      if (match.status.status_code === 429) {
+        console.error('rate limit exceeded');
+      }
+    } else {
+      const player = match.info.participants.find(
+        (participant) => participant.puuid === puuid
+      );
+      champions.push(player.championName);
+    }
   }
 
   const mostPlayed = utils.getMostPlayedChampions(champions);
@@ -139,11 +102,9 @@ const getAccount = async (username) => {
 };
 
 module.exports = {
-  updateMostPlayed: updateMostPlayed,
-  buildData: buildData,
-  getRankedData: getRankedData,
-  getChampionData: getChampionData,
-  getPuuid: getPuuid,
-  getGrandmasterLP: getGrandmasterLP,
-  getChallengerLP: getChallengerLP,
+  getRankedData,
+  updateMostPlayed,
+  getPuuid,
+  getGrandmasterLP,
+  getChallengerLP,
 };
