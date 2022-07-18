@@ -20,7 +20,7 @@ export const Username = ({ username, name, index }) => {
         </div>
         <div className='font-bold text-2xl hover:underline'>
           <a
-            href={`https://euw.op.gg/summoners/euw/${name}`}
+            href={`https://euw.op.gg/summoners/euw/${username}`}
             target='_blank'
             rel='noreferrer'
           >
