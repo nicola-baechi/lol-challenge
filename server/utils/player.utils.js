@@ -37,25 +37,23 @@ const getMostPlayedChampions = (champions) => {
 };
 
 const calculateRanking = (data) => {
-  const diamonds = data.filter((player) => player.tier === 'DIAMOND');
-  if (diamonds.length == 0) {
-    const sorted = data.sort((a, b) => {
-      return b.lp - a.lp;
-    });
-    return sorted;
-  } else {
-    const sortedDiamonds = diamonds.sort((a, b) => {
-      return b.lp - a.lp;
-    });
+  let diamonds = data.filter((player) => player.tier === 'DIAMOND');
+  let masters = data.filter((player) => player.tier === 'MASTER');
+  let grandmasters = data.filter((player) => player.tier === 'GRANDMASTER');
 
-    const rest = data
-      .filter((player) => player.tier !== 'DIAMOND')
-      .sort((a, b) => {
-        return b.lp - a.lp;
-      });
+  diamonds = diamonds.sort((a, b) => b.progress - a.progress);
+  masters = masters.sort((a, b) => b.progress - a.progress);
 
-    return rest.concat(sortedDiamonds);
-  }
+  grandmasters = grandmasters.sort((a, b) => {
+    if (a.progress === b.progress) {
+      return b.LP - a.LP;
+    } else {
+      return b.progress - a.progress;
+    }
+  });
+
+  const ranking = [...grandmasters, ...masters, ...diamonds];
+  return ranking;
 };
 
 module.exports = {

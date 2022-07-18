@@ -15,20 +15,34 @@ const getRankedData = async (username) => {
   const response = fetch(url)
     .then((res) => res.json())
     .then((json) => {
-      return json.find((rank) => rank.queueType === 'RANKED_SOLO_5x5');
+      if (match.hasOwnProperty('status')) {
+        if (match.status.status_code === 429) {
+          console.error('rate limit exceeded');
+        } else if (match.status.status_code === 401) {
+          console.error('key has expired');
+        }
+      } else {
+        return json.find((rank) => rank.queueType === 'RANKED_SOLO_5x5');
+      }
     });
+
   return response;
 };
 
 const updateMostPlayed = async (username) => {
   const puuid = await getPuuid(username);
   const matches = await getMatchesByPuuid(puuid);
+
   let champions = [];
   for (let matchId of matches) {
     const match = await getMatchInfo(matchId);
     if (match.hasOwnProperty('status')) {
       if (match.status.status_code === 429) {
         console.error('rate limit exceeded');
+        return;
+      } else if (match.status.status_code === 401) {
+        console.error('key has expired');
+        return;
       }
     } else {
       const player = match.info.participants.find(
@@ -51,12 +65,37 @@ const getMatchInfo = async (matchId) => {
 };
 
 const getMatchesByPuuid = async (puuid) => {
+  const mostRecentGame = await getMostRecentGameByPuuid(puuid);
   const url = `${MATCHES_API}by-puuid/${puuid}${MATCHES_PARAMS}&api_key=${process.env.API_KEY}`;
-  return fetch(url)
-    .then((res) => res.json())
-    .then((json) => {
-      return json;
-    });
+  const res = await fetch(url);
+  let json = await res.json();
+  console.log(json);
+
+  const lastGame = json[0];
+  if (mostRecentGame === lastGame) {
+    return json;
+  } else {
+    console.log('test');
+    const timestamp = await getMatchInfo(lastGame).info.gameEndTimestamp;
+
+    const params = `/ids?startTime=${timestamp}&type=ranked&start=0&count=100`;
+    const extUrl = `${MATCHES_API}by-puuid/${puuid}${params}&api_key=${process.env.API_KEY}`;
+    const extRes = await fetch(extUrl);
+    const extJson = await extRes.json();
+
+    const uniqueMatches = [...new Set(extJson.concat(json))];
+    console.log('length: ', uniqueMatches.length);
+    return uniqueMatches;
+  }
+};
+
+const getMostRecentGameByPuuid = async (puuid) => {
+  const url = `${MATCHES_API}by-puuid/${puuid}/ids?type=ranked&start=0&count=1&api_key=${process.env.API_KEY}`;
+  const res = await fetch(url);
+  const json = await res.json();
+
+  const mostRecentGame = json[0];
+  return mostRecentGame;
 };
 
 const getGrandmasterLP = async () => {
