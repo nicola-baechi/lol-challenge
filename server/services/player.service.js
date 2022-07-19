@@ -39,7 +39,6 @@ const getRankedData = async (username) => {
 const updateMostPlayed = async (username) => {
   const puuid = await getPuuid(username);
   const matches = await getMatchesByPuuid(puuid);
-  console.log(matches.length);
   // wait for rate limiting to be reset
   await sleep(120000);
 
