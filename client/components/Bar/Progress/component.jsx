@@ -15,11 +15,11 @@ export const Progress = () => {
     >
       <div className='w-full flex lg:flex-col font-medium justify-between'>
         <h6>
-          <span className='text-[#38d39c] tracking-widest'>{daysPassed}</span>{' '}
+          <span className='text-[#38d39c]'>{daysPassed}</span>{' '}
           Tage vergangen
         </h6>
         <h6>
-          <span className='text-zinc-500 '>{daysLeft}</span> Tage übrig
+          <span className='text-zinc-400'>{daysLeft}</span> Tage übrig
         </h6>
       </div>
       <progress
