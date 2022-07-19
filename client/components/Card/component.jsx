@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { MostPlayed } from './MostPlayed';
 import { RankUp } from './RankUp';
 import { Stats } from './Stats';
-import { Username } from './Username';
+import { Header } from './Header';
 
 export const Card = ({ playerData, index }) => {
   const cardUrl = `https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${playerData.mostPlayed[0].champion}_0.jpg`;
@@ -20,7 +20,7 @@ export const Card = ({ playerData, index }) => {
       className='flex justify-center items-center flex-col bg-[#1f1f23] 
       drop-shadow-lg text-white p-10 m-3 rounded-lg w-96 h-[22rem] gap-3'
     >
-      <Username
+      <Header
         username={playerData.username}
         name={playerData.name}
         index={index}

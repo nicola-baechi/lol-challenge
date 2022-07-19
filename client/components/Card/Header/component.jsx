@@ -8,7 +8,7 @@ const rankColors = [
   'text-[#ffffff] bg-[#2f2f36]',
 ];
 
-export const Username = ({ username, name, index }) => {
+export const Header = ({ username, name, index }) => {
   return (
     <>
       <div className='tooltip' data-tip={`${name} gewinnt gerade`}>

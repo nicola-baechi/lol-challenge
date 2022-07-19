@@ -1,7 +1,5 @@
 import Head from 'next/head';
-import { Card } from '../components/Card';
-import { Footer } from '../components/Footer';
-import { Bar } from '../components/Bar';
+import { Footer, Card, Bar } from 'components';
 import { useEffect } from 'react';
 import { useState } from 'react';
 
