@@ -15,8 +15,7 @@ export const Progress = () => {
     >
       <div className='w-full flex lg:flex-col font-medium justify-between'>
         <h6>
-          <span className='text-[#38d39c]'>{daysPassed}</span>{' '}
-          Tage vergangen
+          <span className='text-[#38d39c]'>{daysPassed}</span> Tage vergangen
         </h6>
         <h6>
           <span className='text-zinc-400'>{daysLeft}</span> Tage übrig

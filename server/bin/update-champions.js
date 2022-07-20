@@ -6,6 +6,8 @@ const updateMostPlayed = async () => {
 
   const updated = await service.updateMostPlayed(userToUpdate);
 
+  console.info(`updating champions of player ${updated}`);
+
   await db.updateMostPlayed(userToUpdate, updated);
 };
 
