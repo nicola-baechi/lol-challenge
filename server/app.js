@@ -19,14 +19,26 @@ const getPlayers = async (request, response) => {
 
   const final = [];
   for (let player of players) {
-    const mostPlayed = await db.getMostPlayedByPlayer(player.username);
-    final.push({ ...player, mostPlayed });
+    const champions = await db.getChampionsByPlayer(player.username);
+    const mostPlayed = utils.getMostPlayedChampions(champions);
+    final.push({ ...player, mostPlayed: mostPlayed });
   }
 
   response.status(200).json(utils.calculateRanking(final));
 };
 
+const getChampionDataOfPlayer = async (request, response) => {
+  const username = request.params.username;
+  const champions = await db.getChampionsByPlayer(username);
+
+  // sort champions by games descending
+  champions.sort((a, b) => b.games - a.games);
+
+  response.status(200).json(champions);
+};
+
 app.route('/players').get(getPlayers);
+app.route('/champions/:username').get(getChampionDataOfPlayer);
 
 app.listen(
   process.env.PORT || 8080,

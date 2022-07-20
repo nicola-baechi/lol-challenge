@@ -49,44 +49,30 @@ const updatePlayer = (username, data) => {
   );
 };
 
-const createMostPlayed = async (username, champions) => {
+const createChampions = async (username, champions) => {
   const id = await getIdByUsername(username);
 
   for (const champion of champions) {
     client.query(
-      `INSERT INTO most_played (player, champion, games) VALUES ($1, $2, $3)`,
-      [id, champion.name, champion.games],
+      `INSERT INTO champions (player, champion, games, 
+        wins, losses, kills, deaths, assists) 
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
+      [
+        id,
+        champion.champion,
+        champion.games,
+        champion.wins,
+        champion.losses,
+        champion.kills,
+        champion.deaths,
+        champion.assists,
+      ],
       (error, results) => {
         if (error) {
           throw error;
         } else {
           console.info(
-            `most played ${champion.name} of ${username} successfully created`
-          );
-        }
-      }
-    );
-  }
-};
-
-const updateMostPlayed = async (username, champions) => {
-  const id = await getIdByUsername(username);
-
-  const ids = await getMostPlayedIdsByPlayer(id);
-
-  for (const [index, _id] of ids.entries()) {
-    const champion = champions[index];
-
-    client.query(
-      `UPDATE most_played SET champion = $1, games = $2 WHERE player = $3
-      AND id = $4`,
-      [champion.name, champion.games, id, _id.id],
-      (error, results) => {
-        if (error) {
-          throw error;
-        } else {
-          console.info(
-            `most played ${champion.name} of ${username} successfully updated`
+            `champion ${champion.champion} of ${username} successfully created`
           );
         }
       }
@@ -95,11 +81,48 @@ const updateMostPlayed = async (username, champions) => {
   updateTimestamp(username);
 };
 
-const getMostPlayedByPlayer = async (username) => {
+const updateChampions = async (username, champions) => {
+  const id = await getIdByUsername(username);
+
+  const ids = await getChampionIdsByPlayer(id);
+
+  for (const [index, _id] of ids.entries()) {
+    const champion = champions[index];
+
+    client.query(
+      `UPDATE champions SET champion = $1, games = $2, wins = $3, 
+      losses = $4, kills = $5, deaths = $6, assists = $7
+      WHERE player = $8 AND id = $9`,
+      [
+        champion.champion,
+        champion.games,
+        champion.wins,
+        champion.losses,
+        champion.kills,
+        champion.deaths,
+        champion.assists,
+        id,
+        _id.id,
+      ],
+      (error, results) => {
+        if (error) {
+          throw error;
+        } else {
+          console.info(
+            `champion ${champion.champion} of ${username} successfully updated`
+          );
+        }
+      }
+    );
+  }
+  updateTimestamp(username);
+};
+
+const getChampionsByPlayer = async (username) => {
   const id = await getIdByUsername(username);
 
   const result = await client.query(
-    `SELECT * FROM most_played WHERE player = $1`,
+    `SELECT * FROM champions WHERE player = $1`,
     [id]
   );
   return result.rows;
@@ -117,10 +140,10 @@ const getIdByUsername = async (username) => {
   }
 };
 
-const getMostPlayedIdsByPlayer = async (player) => {
+const getChampionIdsByPlayer = async (player) => {
   try {
     const result = await client.query(
-      `SELECT id FROM most_played WHERE player = $1`,
+      `SELECT id FROM champions WHERE player = $1`,
       [player]
     );
     return result.rows;
@@ -169,10 +192,10 @@ const updateTimestamp = async (username) => {
 module.exports = {
   getPlayers,
   getIdByUsername,
-  getMostPlayedByPlayer,
+  getChampionsByPlayer,
   getOldestPlayerTimestamp,
   createPlayer,
   updatePlayer,
-  createMostPlayed,
-  updateMostPlayed,
+  createChampions,
+  updateChampions,
 };

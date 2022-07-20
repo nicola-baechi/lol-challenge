@@ -11,8 +11,18 @@ const utils = require('../utils/player.utils');
 const sleep = require('util').promisify(setTimeout);
 
 const request = async (url) => {
-  const res = await fetch(url);
-  const json = await res.json();
+  const response = await fetch(url);
+  const json = await response.json();
+  if (json.hasOwnProperty('status')) {
+    if (json.status.status_code === 429) {
+      console.error('rate limit exceeded');
+    } else if (
+      json.status.status_code === 401 ||
+      json.status.status_code === 403
+    ) {
+      console.error('key has expired');
+    }
+  }
   return json;
 };
 
@@ -36,40 +46,57 @@ const getRankedData = async (username) => {
   return response;
 };
 
-const updateMostPlayed = async (username) => {
-
-  await sleep(120000);
-
+const updateChampions = async (username) => {
+  // timeout incase of parallel cron job
+  //await sleep(120000);
   const puuid = await getPuuid(username);
+  console.log(puuid);
   const matches = await getMatchesByPuuid(puuid);
+  console.log(matches);
   // wait for rate limiting to be reset
   await sleep(120000);
 
   let champions = [];
   for (let [index, matchId] of matches.entries()) {
     if (index % 100 === 0) {
-      await sleep(120000);
+      console.log('inbetween timeout triggered');
+      await sleep(180000);
     }
     const match = await getMatchInfo(matchId);
-    if (match.hasOwnProperty('status')) {
-      if (match.status.status_code === 429) {
-        console.error('rate limit exceeded');
-        return;
-      } else if (match.status.status_code === 401) {
-        console.error('key has expired');
-        return;
+    const player = match.info.participants.find(
+      (participant) => participant.puuid === puuid
+    );
+
+    const isChampionPresent = champions.some(
+      (element) => element.champion === player.championName
+    );
+
+    if (isChampionPresent) {
+      for (const element of champions) {
+        if (element.champion === player.championName) {
+          element.games += 1;
+          element.wins += player.win ? 1 : 0;
+          element.losses += player.win ? 0 : 1;
+          element.kills += player.kills;
+          element.deaths += player.deaths;
+          element.assists += player.assists;
+
+          break;
+        }
       }
     } else {
-      const player = match.info.participants.find(
-        (participant) => participant.puuid === puuid
-      );
-      champions.push(player.championName);
+      champions.push({
+        champion: player.championName,
+        games: 1,
+        wins: player.win ? 1 : 0,
+        losses: player.win ? 0 : 1,
+        kills: player.kills,
+        deaths: player.deaths,
+        assists: player.assists,
+      });
     }
   }
-
-  const mostPlayed = utils.getMostPlayedChampions(champions);
-
-  return mostPlayed;
+  return champions;
 };
 
 const getMatchInfo = async (matchId) => {
@@ -145,7 +172,7 @@ const getAccount = async (username) => {
 
 module.exports = {
   getRankedData,
-  updateMostPlayed,
+  updateChampions,
   getPuuid,
   getGrandmasterLP,
   getChallengerLP,

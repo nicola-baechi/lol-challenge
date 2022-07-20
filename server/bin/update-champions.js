@@ -1,14 +1,19 @@
 const db = require('../services/db.service');
 const service = require('../services/player.service');
 
-const updateMostPlayed = async () => {
+const updateChampions = async () => {
+  console.time('updateChampions');
+
   const userToUpdate = await db.getOldestPlayerTimestamp();
 
-  const updated = await service.updateMostPlayed(userToUpdate);
+  console.log(`userToUpdate: ${userToUpdate}`);
+  const updated = await service.updateChampions(userToUpdate);
 
-  console.info(`updating champions of player ${updated}`);
+  console.info(`updating champions of player ${userToUpdate}`);
 
-  await db.updateMostPlayed(userToUpdate, updated);
+  await db.updateChampions(userToUpdate, updated);
+
+  console.timeEnd('updateChampions');
 };
 
-updateMostPlayed();
+updateChampions();
