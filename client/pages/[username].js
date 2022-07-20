@@ -2,7 +2,7 @@ export default function ChampionData({ data }) {
   return (
     <>
       {data.map((champion) => (
-        <h6>{champion.champion}</h6>
+        <h6 key={champion.id}>{champion.champion}</h6>
       ))}
     </>
   );
