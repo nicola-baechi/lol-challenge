@@ -36,8 +36,8 @@ const calculateRanking = (data) => {
   let masters = data.filter((player) => player.tier === 'MASTER');
   let grandmasters = data.filter((player) => player.tier === 'GRANDMASTER');
 
-  diamonds = diamonds.sort((a, b) => b.progress - a.progress);
-  masters = masters.sort((a, b) => b.progress - a.progress);
+  diamonds = diamonds.sort((a, b) => b.lp - a.lp);
+  masters = masters.sort((a, b) => b.lp - a.lp);
 
   grandmasters = grandmasters.sort((a, b) => {
     if (a.progress === b.progress) {
