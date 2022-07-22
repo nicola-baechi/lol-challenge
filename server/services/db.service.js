@@ -9,6 +9,18 @@ const getPlayers = async () => {
   }
 };
 
+const getPlayerByUsername = async (username) => {
+  try {
+    const result = await client.query(
+      `SELECT * FROM players WHERE username = $1`,
+      [username]
+    );
+    return result.rows[0];
+  } catch (e) {
+    return console.error(e.stack);
+  }
+};
+
 const createPlayer = (
   username,
   name,
@@ -152,6 +164,48 @@ const getChampionIdsByPlayer = async (player) => {
   }
 };
 
+const updateGamesByUsername = async (username, games) => {
+  client.query(
+    `UPDATE players SET games = $1 WHERE username = $2`,
+    [games, username],
+    (error, results) => {
+      if (error) {
+        throw error;
+      } else {
+        console.info(`games of ${username} successfully updated to ${games}`);
+      }
+    }
+  );
+};
+
+const updateWinsByUsername = async (username, wins) => {
+  client.query(
+    `UPDATE players SET wins = $1 WHERE username = $2`,
+    [wins, username],
+    (error, results) => {
+      if (error) {
+        throw error;
+      } else {
+        console.info(`wins of ${username} successfully updated to ${wins}`);
+      }
+    }
+  );
+};
+
+const updateLossesByUsername = async (username, losses) => {
+  client.query(
+    `UPDATE players SET losses = $1 WHERE username = $2`,
+    [losses, username],
+    (error, results) => {
+      if (error) {
+        throw error;
+      } else {
+        console.info(`losses of ${username} successfully updated to ${losses}`);
+      }
+    }
+  );
+};
+
 const getOldestPlayerTimestamp = async () => {
   const players = await getPlayers();
   const today = new Date();
@@ -191,8 +245,12 @@ const updateTimestamp = async (username) => {
 
 module.exports = {
   getPlayers,
+  getPlayerByUsername,
   getIdByUsername,
   getChampionsByPlayer,
+  updateGamesByUsername,
+  updateWinsByUsername,
+  updateLossesByUsername,
   getOldestPlayerTimestamp,
   createPlayer,
   updatePlayer,

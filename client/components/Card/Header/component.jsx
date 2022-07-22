@@ -11,7 +11,7 @@ const rankColors = [
 export const Header = ({ username, name, index }) => {
   return (
     <>
-      <div className='tooltip' data-tip={`${name} gewinnt gerade`}>
+      <div className='tooltip absolute top-3' data-tip={`${name} gewinnt gerade`}>
         {index == 0 && <TbCrown size={25} color='#f4c675' />}
       </div>
       <div className='flex gap-2 items-center mb-2'>

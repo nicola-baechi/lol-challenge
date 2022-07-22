@@ -25,8 +25,10 @@ const updatePlayerData = async () => {
     console.info(`updating data of ${player.USERNAME}`);
     const updatedData = await service.getRankedData(player.USERNAME);
 
+    const _player = await db.getPlayerByUsername(player.USERNAME);
+
     const wr = Math.round(
-      (100 / (updatedData.wins + updatedData.losses)) * updatedData.wins
+      (100 / (_player.games)) * _player.wins
     );
 
     const progress = utils.calculateProgress(updatedData, player);

@@ -9,6 +9,7 @@ const fetch = require('node-fetch');
 require('dotenv').config();
 const utils = require('../utils/player.utils');
 const sleep = require('util').promisify(setTimeout);
+const db = require('../services/db.service');
 
 const request = async (url) => {
   const response = await fetch(url);
@@ -47,20 +48,20 @@ const getRankedData = async (username) => {
 };
 
 const updateChampions = async (username) => {
-  // timeout incase of parallel cron job
-  //await sleep(120000);
   const puuid = await getPuuid(username);
-  console.log(puuid);
-  const matches = await getMatchesByPuuid(puuid);
-  console.log(matches);
+  // timeout incase of parallel cron job
+  await sleep(120000);
+  const matches = await getMatchesByUsername(username);
   // wait for rate limiting to be reset
   await sleep(120000);
 
   let champions = [];
+  let losses = 0;
+  let wins = 0;
   for (let [index, matchId] of matches.entries()) {
     if (index % 100 === 0) {
       console.log('inbetween timeout triggered');
-      await sleep(180000);
+      await sleep(120000);
     }
     const match = await getMatchInfo(matchId);
     const player = match.info.participants.find(
@@ -70,6 +71,8 @@ const updateChampions = async (username) => {
     const isChampionPresent = champions.some(
       (element) => element.champion === player.championName
     );
+
+    player.win ? wins++ : losses++;
 
     if (isChampionPresent) {
       for (const element of champions) {
@@ -96,6 +99,10 @@ const updateChampions = async (username) => {
       });
     }
   }
+
+  await db.updateWinsByUsername(username, wins);
+  await db.updateLossesByUsername(username, losses);
+
   return champions;
 };
 
@@ -106,7 +113,8 @@ const getMatchInfo = async (matchId) => {
   return req;
 };
 
-const getMatchesByPuuid = async (puuid) => {
+const getMatchesByUsername = async (username) => {
+  const puuid = await getPuuid(username);
   const url = `${MATCHES_API}by-puuid/${puuid}${MATCHES_PARAMS}&api_key=${process.env.API_KEY}`;
   let matches = await request(url);
 
@@ -131,6 +139,8 @@ const getMatchesByPuuid = async (puuid) => {
   }
 
   matches = matches.concat(nextMatches);
+  await db.updateGamesByUsername(username, matches.length);
+
   return matches;
 };
 

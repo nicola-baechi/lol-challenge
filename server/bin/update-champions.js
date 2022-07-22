@@ -7,11 +7,11 @@ const updateChampions = async () => {
   const userToUpdate = await db.getOldestPlayerTimestamp();
 
   console.log(`userToUpdate: ${userToUpdate}`);
-  const updated = await service.updateChampions(userToUpdate);
+  const updated = await service.updateChampions('VININE Shantao');
 
   console.info(`updating champions of player ${userToUpdate}`);
 
-  await db.updateChampions(userToUpdate, updated);
+  await db.updateChampions('VININE Shantao', updated);
 
   console.timeEnd('updateChampions');
 };
