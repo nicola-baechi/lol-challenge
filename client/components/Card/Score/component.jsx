@@ -1,5 +1,4 @@
 export const Score = ({ wins, losses, wr }) => {
-  const value = `w-[${wr}%]`;
 
   return (
     <div className='flex flex-col w-full'>
@@ -15,7 +14,10 @@ export const Score = ({ wins, losses, wr }) => {
       </div>
       <div className='h-1 relative max-w-xl overflow-hidden'>
         <div className='w-full h-full bg-[#e44584] absolute'></div>
-        <div className={`h-full bg-[#1cbd9d] absolute ${value}`}></div>
+        <div
+          className='h-full bg-[#1cbd9d] absolute'
+          style={{ width: `${wr}%` }}
+        ></div>
       </div>
     </div>
   );

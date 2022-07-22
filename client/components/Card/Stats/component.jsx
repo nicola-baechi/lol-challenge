@@ -80,7 +80,7 @@ export const Stats = ({ tier, p_rank, lp, wr, progress, lpToUprank }) => {
           <div className='flex items-center gap-3'>
             <h6 className='font-normal text-lg'>
               <span className='font-semibold'>{lpToUprank} LP</span> für
-              {tier === 'MASTER' ? (
+              {tier !== 'GRANDMASTER' ? (
                 <span className='font-semibold text-[#cd4241]'> GM</span>
               ) : (
                 <span className='font-semibold text-[#efcc75]'> CH</span>

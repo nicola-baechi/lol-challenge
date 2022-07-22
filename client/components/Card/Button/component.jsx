@@ -2,9 +2,15 @@ import Link from 'next/link';
 
 export const Button = ({ username }) => {
   return (
-    <div className='w-full flex justify-center items-center h-full mt-12 flex-col'>
+    <div
+      className='w-full flex justify-center items-center h-full mt-12 flex-col tooltip'
+      data-tip='WORK IN PROGRESS'
+    >
       <Link href={`/${username}`}>
-        <button className='flex bg-[#3a3a3d] p-3 rounded-md gap-2 font-semibold' disabled>
+        <button
+          className='flex bg-[#3a3a3d] p-3 rounded-md gap-2 font-semibold'
+          disabled
+        >
           <svg
             width='24'
             height='24'
