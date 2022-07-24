@@ -21,7 +21,7 @@ const getPlayers = async (request, response) => {
   for (let player of players) {
     const champions = await db.getChampionsByPlayer(player.username);
     const mostPlayed = utils.getMostPlayedChampions(champions);
-    final.push({ ...player, mostPlayed: mostPlayed });
+    final.push({ ...player, champions: champions });
   }
 
   response.status(200).json(utils.calculateRanking(final));

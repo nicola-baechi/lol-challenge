@@ -1,5 +1,4 @@
 export const Score = ({ wins, losses, wr }) => {
-
   return (
     <div className='flex flex-col w-full'>
       <div className='flex m-1 gap-4 font-semibold'>
