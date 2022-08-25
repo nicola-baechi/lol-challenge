@@ -21,7 +21,7 @@ export default function Home({ data }) {
       <Bar GMLP={getGMCutoff()} />
       <div
         className='grid grid-col grid-cols-1 
-       lg:grid-cols-2 justify-items-center xl:grid-cols-3'
+       lg:grid-cols-2 justify-items-center xl:grid-cols-3 '
       >
         {data.map((player, index) => (
           <Card playerData={player} key={player.name} index={index} />

@@ -53,7 +53,7 @@ export const ChampionStats = ({ playerData, isFlipped, setIsFlipped }) => {
       <button
         className='absolute left-1 top-1 bg-[#1f1f23] p-2 rounded-lg
       hover:bg-[#3a3a3d]'
-      onClick={() => setIsFlipped(!isFlipped)}
+        onClick={() => setIsFlipped(!isFlipped)}
       >
         <TbArrowBackUp size={20} />
       </button>

@@ -1,4 +1,3 @@
-
 export const Row = ({ champion }) => {
   const winrate = Math.round(
     (100 / (parseInt(champion.wins) + parseInt(champion.losses))) *

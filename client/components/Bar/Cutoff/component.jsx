@@ -7,6 +7,7 @@ export const Cutoff = ({ GMLP }) => {
       <img
         src={`https://static.u.gg/assets/lol/ranks/2d/grandmaster.svg`}
         className='h-10'
+        alt='grandmaster icon'
       />
       <h6>
         Grenze bei ~ <span className='text-[#cd4241] font-bold'>{GMLP} LP</span>

@@ -45,9 +45,13 @@ export const Stats = ({ tier, p_rank, lp, wr, progress, lpToUprank }) => {
     }
   };
 
+  const checkEslint = () => {
+    const hi = '';
+  };
+
   return (
     <div className='flex items-center gap-3'>
-      <img src={rankIcon} className='h-14' />
+      <img src={rankIcon} className='h-14' alt={tier} />
       <div className='flex flex-col justify-center gap-2'>
         <div
           className={`text-2xl flex items-center ${getStyleByTier(tier).gap}`}

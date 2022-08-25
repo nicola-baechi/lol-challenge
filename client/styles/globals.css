@@ -7,6 +7,7 @@
 html,
 body {
   min-height: 100%;
+  min-width: 100%;
   margin: 0px;
   @apply bg-neutral-950;
 }
@@ -16,17 +17,17 @@ body {
     width: 10px;
     height: 20px;
   }
-  
+
   .scrollbar::-webkit-scrollbar-track {
     background: #18181b;
   }
-  
+
   .scrollbar::-webkit-scrollbar-thumb {
     background: #3a3a3d;
     border-radius: 100vh;
     border: 3px solid #18181b;
   }
-  
+
   .scrollbar::-webkit-scrollbar-thumb:hover {
     background: #3a3a3d;
   }
