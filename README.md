@@ -4,8 +4,12 @@
 </div>
 
 ## :star2: About the Project
-A project for league of legends streamers who competed in a challenge against each other. Whoever would hit a certain rank in game wins the challenge. 
+A project for league of legends streamers who competed in a challenge against each other. Whoever would hit a certain rank in game first wins the challenge. 
 The website displays the player who is currently winning, the progress, rank, win rate and champion stats of each player. 
+## :computer: Check it out
+Check the website out [here](https://vinine-grandmaster.vercel.app/). Some things wont work and display properly anymore, because the challenge is over and i havent updated some values yet. 
+(Might not work anymore since Heroku removed free plan 😟)
+
 ## :space_invader: Tech Stack
 <details>
   <summary>Client</summary>
@@ -38,3 +42,4 @@ The website displays the player who is currently winning, the progress, rank, wi
     <li><a href="https://www.postgresql.org/">Heroku</a> for Backend/DB</li>
   </ul>
 </details>
+
