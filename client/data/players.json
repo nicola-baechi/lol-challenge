@@ -1,0 +1,38 @@
+[
+    {
+        "tier": "MASTER",
+        "lp": "100",
+        "lp_to_uprank": "10",
+        "p_rank": "25",
+        "name": "test",
+        "username": "test",
+        "progress": "25",
+        "wins": "25",
+        "losses": "25",
+        "wr": "25",
+        "champions": [
+            {
+                "champion": "Jhin"
+
+            }
+        ]
+    },
+    {
+        "tier": "MASTER",
+        "lp": "100",
+        "lp_to_uprank": "10",
+        "p_rank": "25",
+        "name": "test",
+        "username": "test",
+        "progress": "25",
+        "wins": "25",
+        "losses": "25",
+        "wr": "25",
+        "champions": [
+            {
+                "champion": "Jhin"
+
+            }
+        ]
+    }
+]

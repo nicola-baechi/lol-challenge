@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import { Footer, Card, Bar } from 'components';
+import data from '../data/players.json';
 
 if (process.env.NODE_ENV !== 'development') {
   // disable all console logs
@@ -33,13 +34,13 @@ export default function Home({ data }) {
 }
 
 export async function getServerSideProps() {
-  const url =
-    process.env.NODE_ENV === 'development'
-      ? 'http://localhost:8080/players'
-      : 'https://vinine-grandmaster.herokuapp.com/players';
+  // const url =
+  //   process.env.NODE_ENV === 'development'
+  //     ? 'http://localhost:8080/players'
+  //     : 'https://vinine-grandmaster.herokuapp.com/players';
 
-  const res = await fetch(url);
-  const data = await res.json();
+  // const res = await fetch('/client/data/players.json');
+  // const data = await res.json();
 
   return { props: { data } };
 }
