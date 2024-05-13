@@ -45,10 +45,6 @@ export const Stats = ({ tier, p_rank, lp, wr, progress, lpToUprank }) => {
     }
   };
 
-  const checkEslint = () => {
-    const hi = '';
-  };
-
   return (
     <div className='flex items-center gap-3'>
       <img src={rankIcon} className='h-14' alt={tier} />
@@ -59,7 +55,7 @@ export const Stats = ({ tier, p_rank, lp, wr, progress, lpToUprank }) => {
           <span
             className={`${getColorByTier(tier)}
                ${getStyleByTier(tier).size} 
-               font-semibold`}
+               font-semibold font-staatliches`}
           >
             {tier}
             {tier == 'DIAMOND' && ` ${p_rank}`}
@@ -69,7 +65,7 @@ export const Stats = ({ tier, p_rank, lp, wr, progress, lpToUprank }) => {
             {lp} LP
           </span>
         </div>
-        <div className='flex items-center text-lg font-medium -ml-1.5 gap-2.5'>
+        <div className='flex items-center justify-centertext-lg font-medium -ml-1.5 gap-2.5'>
           <div className='flex justify-center items-center gap-1.5'>
             <div>
               {progress > 0 ? (
@@ -81,15 +77,12 @@ export const Stats = ({ tier, p_rank, lp, wr, progress, lpToUprank }) => {
             <h6>{_progress}</h6>
           </div>
           <div className='text-gray-500 text-lg'>/</div>
-          <div className='flex items-center gap-3'>
-            <h6 className='font-normal text-lg'>
-              <span className='font-semibold'>{lpToUprank} LP</span> für
-              {tier !== 'GRANDMASTER' ? (
-                <span className='font-semibold text-[#cd4241]'> GM</span>
-              ) : (
-                <span className='font-semibold text-[#efcc75]'> CH</span>
-              )}
-            </h6>
+          <div className='flex items-center gap-2'>
+            <span className='font-semibold text-sm'>{lpToUprank} LP</span>
+            <span className='text-sm'> für</span>
+            <span className='font-semibold text-sm text-[#cd4241]'>
+              RANK UP
+            </span>
           </div>
         </div>
       </div>

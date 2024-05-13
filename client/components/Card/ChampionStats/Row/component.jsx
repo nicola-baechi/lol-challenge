@@ -33,7 +33,7 @@ export const Row = ({ champion }) => {
       key={champion.id}
       className='text-sm border-b-[#1f1f23] border-b-4 font-medium'
     >
-      <td className='p-1.5'>
+      <td className='p-1.5 pl-0'>
         <img className='w-12' src={url} alt={champion.champion} />
       </td>
       <td className=''>

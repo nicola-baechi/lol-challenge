@@ -1,38 +1,297 @@
 [
-    {
-        "tier": "MASTER",
-        "lp": "100",
-        "lp_to_uprank": "10",
-        "p_rank": "25",
-        "name": "test",
-        "username": "test",
-        "progress": "25",
-        "wins": "25",
-        "losses": "25",
-        "wr": "25",
-        "champions": [
-            {
-                "champion": "Jhin"
-
-            }
-        ]
-    },
-    {
-        "tier": "MASTER",
-        "lp": "100",
-        "lp_to_uprank": "10",
-        "p_rank": "25",
-        "name": "test",
-        "username": "test",
-        "progress": "25",
-        "wins": "25",
-        "losses": "25",
-        "wr": "25",
-        "champions": [
-            {
-                "champion": "Jhin"
-
-            }
-        ]
-    }
+  {
+    "tier": "MASTER",
+    "lp": "150",
+    "lp_to_uprank": "50",
+    "p_rank": "25",
+    "name": "Player 1",
+    "username": "Player 1",
+    "progress": "25",
+    "wins": "75",
+    "losses": "25",
+    "wr": "75",
+    "champions": [
+      {
+        "id": 1,
+        "champion": "Irelia",
+        "wins": 15,
+        "losses": 5,
+        "kills": 20,
+        "deaths": 5,
+        "assists": 7
+      },
+      {
+        "id": 2,
+        "champion": "Ashe",
+        "wins": 11,
+        "losses": 6,
+        "kills": 12,
+        "deaths": 7,
+        "assists": 13
+      },
+      {
+        "id": 3,
+        "champion": "Jinx",
+        "wins": 13,
+        "losses": 10,
+        "kills": 18,
+        "deaths": 7,
+        "assists": 5
+      },
+      {
+        "id": 4,
+        "champion": "Kaisa",
+        "wins": 10,
+        "losses": 10,
+        "kills": 12,
+        "deaths": 10,
+        "assists": 12
+      },
+      {
+        "id": 5,
+        "champion": "Samira",
+        "wins": 10,
+        "losses": 0,
+        "kills": 18,
+        "deaths": 3,
+        "assists": 7
+      }
+    ]
+  },
+  {
+    "tier": "DIAMOND",
+    "lp": "75",
+    "lp_to_uprank": "25",
+    "p_rank": "I",
+    "name": "Player 2",
+    "username": "Player 2",
+    "progress": "-25",
+    "wins": "40",
+    "losses": "60",
+    "wr": "40",
+    "champions": [
+      {
+        "id": 1,
+        "champion": "Braum",
+        "wins": 15,
+        "losses": 5,
+        "kills": 20,
+        "deaths": 5,
+        "assists": 7
+      },
+      {
+        "id": 2,
+        "champion": "Leona",
+        "wins": 11,
+        "losses": 6,
+        "kills": 12,
+        "deaths": 7,
+        "assists": 13
+      },
+      {
+        "id": 3,
+        "champion": "Thresh",
+        "wins": 13,
+        "losses": 10,
+        "kills": 18,
+        "deaths": 7,
+        "assists": 5
+      },
+      {
+        "id": 4,
+        "champion": "Janna",
+        "wins": 10,
+        "losses": 10,
+        "kills": 12,
+        "deaths": 10,
+        "assists": 12
+      },
+      {
+        "id": 5,
+        "champion": "Pyke",
+        "wins": 10,
+        "losses": 0,
+        "kills": 18,
+        "deaths": 3,
+        "assists": 7
+      }
+    ]
+  },
+  {
+    "tier": "DIAMOND",
+    "lp": "50",
+    "lp_to_uprank": "50",
+    "p_rank": "I",
+    "name": "Player 3",
+    "username": "Player 3",
+    "progress": "15",
+    "wins": "55",
+    "losses": "45",
+    "wr": "55",
+    "champions": [
+      {
+        "id": 1,
+        "champion": "Thresh",
+        "wins": 16,
+        "losses": 5,
+        "kills": 20,
+        "deaths": 5,
+        "assists": 7
+      },
+      {
+        "id": 2,
+        "champion": "MissFortune",
+        "wins": 18,
+        "losses": 12,
+        "kills": 15,
+        "deaths": 4,
+        "assists": 10
+      },
+      {
+        "id": 3,
+        "champion": "Tryndamere",
+        "wins": 22,
+        "losses": 17,
+        "kills": 24,
+        "deaths": 8,
+        "assists": 3
+      },
+      {
+        "id": 4,
+        "champion": "Lux",
+        "wins": 17,
+        "losses": 14,
+        "kills": 10,
+        "deaths": 7,
+        "assists": 18
+      },
+      {
+        "id": 5,
+        "champion": "MasterYi",
+        "wins": 27,
+        "losses": 0,
+        "kills": 30,
+        "deaths": 2,
+        "assists": 5
+      }
+    ]
+  },
+  {
+    "tier": "DIAMOND",
+    "lp": "25",
+    "lp_to_uprank": "75",
+    "p_rank": "I",
+    "name": "Player 4",
+    "username": "Player 4",
+    "progress": "45",
+    "wins": "50",
+    "losses": "50",
+    "wr": "50",
+    "champions": [
+      {
+        "id": 1,
+        "champion": "Diana",
+        "wins": 25,
+        "losses": 15,
+        "kills": 18,
+        "deaths": 10,
+        "assists": 12
+      },
+      {
+        "id": 2,
+        "champion": "Ahri",
+        "wins": 18,
+        "losses": 12,
+        "kills": 15,
+        "deaths": 7,
+        "assists": 17
+      },
+      {
+        "id": 3,
+        "champion": "Yasuo",
+        "wins": 17,
+        "losses": 14,
+        "kills": 22,
+        "deaths": 8,
+        "assists": 11
+      },
+      {
+        "id": 4,
+        "champion": "Darius",
+        "wins": 20,
+        "losses": 10,
+        "kills": 27,
+        "deaths": 12,
+        "assists": 8
+      },
+      {
+        "id": 5,
+        "champion": "Soraka",
+        "wins": 20,
+        "losses": 30,
+        "kills": 5,
+        "deaths": 15,
+        "assists": 25
+      }
+    ]
+  },
+  {
+    "tier": "DIAMOND",
+    "lp": "0",
+    "lp_to_uprank": "100",
+    "p_rank": "I",
+    "name": "Player 5",
+    "username": "Player 5",
+    "progress": "-50",
+    "wins": "30",
+    "losses": "70",
+    "wr": "30",
+    "champions": [
+      {
+        "id": 1,
+        "champion": "Morgana",
+        "wins": 20,
+        "losses": 10,
+        "kills": 28,
+        "deaths": 9,
+        "assists": 8
+      },
+      {
+        "id": 2,
+        "champion": "Katarina",
+        "wins": 22,
+        "losses": 18,
+        "kills": 25,
+        "deaths": 12,
+        "assists": 15
+      },
+      {
+        "id": 3,
+        "champion": "Fiora",
+        "wins": 17,
+        "losses": 14,
+        "kills": 20,
+        "deaths": 8,
+        "assists": 11
+      },
+      {
+        "id": 4,
+        "champion": "Nami",
+        "wins": 23,
+        "losses": 26,
+        "kills": 5,
+        "deaths": 15,
+        "assists": 32
+      },
+      {
+        "id": 5,
+        "champion": "Jhin",
+        "wins": 18,
+        "losses": 12,
+        "kills": 10,
+        "deaths": 7,
+        "assists": 23
+      }
+    ]
+  }
 ]

@@ -15,7 +15,7 @@ export const RankedStats = ({ playerData, isFlipped, setIsFlipped, index }) => {
         backgroundBlendMode: 'overlay',
       }}
       className='flex justify-center items-center flex-col bg-[#1f1f23]
-      drop-shadow-lg text-white p-10 m-5 rounded-xl w-96 h-[22rem] gap-3'
+      drop-shadow-lg text-white p-10 m-5 rounded-lg w-96 h-[22rem] gap-3'
     >
       <Header
         username={playerData.username}

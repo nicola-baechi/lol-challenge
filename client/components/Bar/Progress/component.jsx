@@ -1,6 +1,6 @@
 export const Progress = () => {
-  const startDate = new Date('6/30/2022');
-  const endDate = new Date('8/21/2022');
+  const startDate = new Date('4/1/2024');
+  const endDate = new Date('5/30/2024');
   const days = 53;
   const day = 1000 * 60 * 60 * 24;
   const today = new Date();
@@ -10,7 +10,7 @@ export const Progress = () => {
 
   return (
     <div
-      className='flex m-3  gap-3 col-span-2 lg:col-span-1
+      className='flex m-5 gap-3 col-span-2 lg:col-span-1
     bg-[#1f1f23] flex-col drop-shadow-lg p-4 pl-5 rounded-lg text-white '
     >
       <div className='w-full flex lg:flex-col font-medium justify-between'>

@@ -18,6 +18,7 @@ module.exports = {
       fontFamily: {
         hind: ['Hind', 'sans-serif'],
         heebo: ['Heebo', 'sans-serif'],
+        cabin: ['Cabin', 'sans-serif'],
       },
     },
   },

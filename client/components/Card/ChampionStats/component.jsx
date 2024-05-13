@@ -13,7 +13,7 @@ export const ChampionStats = ({ playerData, isFlipped, setIsFlipped }) => {
         backgroundBlendMode: 'overlay',
       }}
       className='flex items-center flex-col bg-[#1f1f23] 
-      drop-shadow-lg text-white p-10 m-5 rounded-xl w-96 h-[22rem] gap-3'
+      drop-shadow-lg text-white p-10 m-5 rounded-lg w-96 h-[22rem] gap-3'
     >
       <div className='flex w-full justify-center text-xs gap-3 font-normal'>
         <h6>
@@ -42,16 +42,15 @@ export const ChampionStats = ({ playerData, isFlipped, setIsFlipped }) => {
           </thead>
           <tbody>
             {playerData.champions.map((champion) => (
-              <>
+              <> 
                 <Row champion={champion} key={champion.id} />
-                <div className='h-2'></div>
               </>
             ))}
           </tbody>
         </table>
       </div>
       <button
-        className='absolute left-1 top-1 bg-[#1f1f23] p-2 rounded-lg
+        className=' left-1 top-1 bg-[#1f1f23] p-2 rounded-lg
       hover:bg-[#3a3a3d]'
         onClick={() => setIsFlipped(!isFlipped)}
       >
